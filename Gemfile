@@ -6,6 +6,10 @@ gem 'rails', '3.2.3'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'thin'
+gem 'koala'
+gem 'mongoid'
+gem 'bson_ext'
+gem 'kaminari'
 
 # Gems used only for assets and not required
 # in production environments by default.
