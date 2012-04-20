@@ -1,5 +1,9 @@
 FacebookFriend::Application.routes.draw do
   root :to => "main#home"
+
+  match "/oauth" => "main#oauth"
+  match "/friends" => "main#friends"
+  match "/signout" => "main#signout"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

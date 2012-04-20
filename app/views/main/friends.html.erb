@@ -1,0 +1,6 @@
+<%= link_to "Home", root_path %>
+<ul>
+  <% @current_user.friends.each_with_index do |friend, i| %>
+    <li><%= "[#{i + 1}] #{friend.name}(#{friend.fb_id})" %></li>
+  <% end %>
+</ul>
