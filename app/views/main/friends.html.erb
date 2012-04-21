@@ -1,6 +1,25 @@
 <%= link_to "Home", root_path %>
+
+<h3>Info([Last updated] App: <%= @current_user.updated_at %>, Facebook: <%= @current_user.updated_time %>)</h3>
+<%= link_to @current_user.name, @current_user.link.html_safe, {:target => "_blank"} %>(<%= @current_user.username %>, <%= @current_user.gender %>)
+
+<h3>Not Friends[<%= @not_friends.count %>]</h3>
+<ul>
+  <% @not_friends.each_with_index do |friend, i| %>
+    <li><%= image_tag friend.profile_picture %> <%= "#{friend.name}(#{friend.fb_id})" %></li>
+  <% end %>
+</ul>
+
+<h3>New Friends[<%= @new_friends.count %>]</h3>
+<ul>
+  <% @new_friends.each_with_index do |friend, i| %>
+    <li><%= image_tag friend.profile_picture %> <%= "#{friend.name}(#{friend.fb_id})" %></li>
+  <% end %>
+</ul>
+
+<h3>Friends List[<%= @current_user.friends.count %>]</h3>
 <ul>
   <% @current_user.friends.each_with_index do |friend, i| %>
-    <li><%= "[#{i + 1}] #{friend.name}(#{friend.fb_id})" %></li>
+    <li><%= image_tag friend.profile_picture %> <%= "#{friend.name}(#{friend.fb_id})" %></li>
   <% end %>
 </ul>

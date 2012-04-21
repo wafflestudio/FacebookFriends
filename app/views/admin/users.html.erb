@@ -1,0 +1,6 @@
+<h3>Uesr List[<%= @users.count %>]</h3>
+<ul>
+  <% @users.each_with_index do |user, i| %>
+    <li><%= image_tag user.profile_picture %> <%= "#{user.name}(#{user.fb_id})" %></li>
+  <% end %>
+</ul>

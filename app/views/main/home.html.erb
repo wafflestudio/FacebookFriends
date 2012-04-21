@@ -4,3 +4,12 @@
 <% else %>
   <%= link_to "Signin", @oauth.url_for_oauth_code(:permissions => "publish_stream") %>
 <% end %>
+
+<% if false %>
+  <h3>Friends List</h3>
+  <ul>
+    <% @friends.each_with_index do |friend, i| %>
+      <li><%= "[#{i + 1}] #{friend['name']}(#{friend['id']})" %></li>
+    <% end %>
+  </ul>
+<% end %>
