@@ -1,0 +1,13 @@
+<%
+  if false
+    feed = @graph.get_connections("me", "feed")
+    concat feed.select {|p| p['story'].to_s.match("now friends") }
+
+    0.upto(10) do |i|
+      feed = feed.next_page
+      concat feed.select {|p| p['story'].to_s.match("now friends") }
+    end
+  end
+%>
+
+<%= @query.select {|q| q['description'].to_s.match("friends")}.map {|h| h['description_tags'].first.last.first['name'] + h['description']} %>

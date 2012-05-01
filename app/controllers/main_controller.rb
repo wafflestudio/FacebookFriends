@@ -1,6 +1,11 @@
+#encoding: utf-8
 class MainController < ApplicationController
   before_filter :get_key
-  before_filter :get_graph, :only => [:friends]
+  before_filter :get_graph, :only => [:friends, :test]
+
+  def test
+    @query = @graph.fql_query("select description, description_tags, type from stream where source_id = me() limit 500")
+  end
 
   def home
   end
@@ -17,26 +22,27 @@ class MainController < ApplicationController
     if @current_user.nil?
       @current_user = User.new(:fb_id => @me['id'])
     end
+
+    if @current_user.updated_at.nil?
+      updated_at = Time.now
+    else
+      updated_at = @current_user.updated_at
+    end
+
     img_src = @graph.get_picture(@me['id'])
-    img_to = "#{dir}/#{@me['id']}.jpg"
 
-    img_read = open(img_src).read
-
-    file_download = open(img_to, "wb")
-    file_download.write(img_read)
-    file_download.close    
-
-    @current_user.profile_picture = File.open(img_to)
     @current_user.name = @me['name']
     @current_user.username = @me['username']
     @current_user.link = @me['link']
     @current_user.gender = @me['gender']
     @current_user.updated_time = @me['updated_time']
+    @current_user.thumbnail = img_src
 
     if @current_user.save
       friends = @current_user.friends
       @not_friends = @current_user.friends
       @new_friends = []
+      @deactivated = []
 
       @friends.each do |friend|
         user = User.where(:fb_id => friend['id']).first
@@ -44,32 +50,7 @@ class MainController < ApplicationController
         if user.nil?
           user = User.new(:fb_id => friend['id'])
           user.name = friend['name']
-
-          img_src = @graph.get_picture(friend['id'])
-          img_to = "#{dir}/#{friend['id']}.jpg"
-
-          img_read = open(img_src).read
-
-          file_download = open(img_to, "wb")
-          file_download.write(img_read)
-          file_download.close    
-
-          user.profile_picture = File.open(img_to)
-
-          user.save
-        end
-
-        if !user.nil? && !user.profile_picture?
-          img_src = @graph.get_picture(friend['id'])
-          img_to = "#{dir}/#{friend['id']}.jpg"
-
-          img_read = open(img_src).read
-
-          file_download = open(img_to, "wb")
-          file_download.write(img_read)
-          file_download.close    
-
-          user.profile_picture = File.open(img_to)
+          user.thumbnail = "http://graph.facebook.com/#{friend['id']}/picture"
           user.save
         end
 
@@ -77,9 +58,15 @@ class MainController < ApplicationController
         @not_friends -= [user]
       end
 
+      @not_friends.each do |not_friend|
+        @deactivated << not_friend if @graph.get_object(not_friend.fb_id) == false
+      end
+
       @current_user.friends -= @not_friends
       @current_user.friends += @new_friends
       @current_user.save
+
+#      @graph.put_wall_post("#{updated_at.to_s[0..9]} 이후 #{@me['name']}님이 새로운 #{@new_friends.count}명과 친구를 맺고 #{@not_friends.count}명의 친구가 떠나서 총 #{@current_user.friends.count - 1}명의 친구가 있습니다. Facebook Friends에서 확인하세요!! http://goo.gl/w5ynd")
     else
       redirect_to root_path # redirect_to back
     end

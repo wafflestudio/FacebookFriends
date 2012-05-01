@@ -2,7 +2,7 @@
   <%= link_to "Where are my friends?", friends_path %>
   <%= link_to "Signout", signout_path %>
 <% else %>
-  <%= link_to "Signin", @oauth.url_for_oauth_code(:permissions => "publish_stream") %>
+  <%= link_to "Signin", @oauth.url_for_oauth_code(:permissions => ["publish_stream", "read_requests", "read_stream, user_activities"]) %>
 <% end %>
 
 <% if false %>

@@ -1,0 +1,7 @@
+<% schedule = @schedule unless @schedule.nil? %>
+<tr>
+  <td><%= image_tag schedule.admin.picture, :width => 50 %> <%= link_to schedule.admin.name, "http://www.facebook.com/profile.php?id=#{schedule.admin.fb_id}", {:target => "_blank"} %></td>
+  <td><%= "#{schedule.started_at} ~ #{schedule.ended_at}" %></td>
+  <td><%= schedule.description %></td>
+  <td><%= image_tag schedule.picture %></td>
+</tr>

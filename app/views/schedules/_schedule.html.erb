@@ -1,0 +1,11 @@
+<tr>
+  <td><%= image_tag schedule.admin.profile_picture, :width => 50 %> <%= link_to schedule.admin.name, "http://www.facebook.com/profile.php?id=#{schedule.admin.fb_id}", {:target => "_blank"} %></td>
+  <td><%= "#{schedule.started_at} ~ #{schedule.ended_at}" %></td>
+  <td><%= schedule.description %></td>
+<td>
+  <% schedule.participants.each do |participant| %>
+    <%= image_tag participant.profile_picture, :width => 50, :alt => participant.name %>
+  <% end %>
+</td>
+  <td><%= image_tag schedule.picture, :width => 250 %></td>
+</tr>

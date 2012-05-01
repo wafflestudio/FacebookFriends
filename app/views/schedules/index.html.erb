@@ -1,0 +1,55 @@
+<script type="text/javascript">
+$(document).ready(function() {
+  $('.datepicker').datepicker({dateFormat: "yy-mm-dd"});
+  var user_json = $.parseJSON('<%= raw @user_json %>');
+  $("#friend-token-input").tokenInput(user_json,
+    {theme: "facebook", 
+    preventDuplicates: true}
+  );
+});
+</script>
+
+<%= link_to "Home", root_path %>
+
+<%= form_for(@schedule) do |f| %>
+  <div class="form_field">
+    <%= f.label :started_at, "From" %>
+    <%= f.text_field :started_at, :class => "datepicker" %>
+  </div>
+  <div class="form_field">
+    <%= f.label :ended_at, "To" %>
+    <%= f.text_field :ended_at, :class => "datepicker" %>
+  </div>
+  <div class="form_field">
+    <%= f.label :participants, "List" %>
+    <%= f.text_field :participants, :value => "", :id => "friend-token-input" %>
+  </div>
+  <div class="form_field">
+    <%= f.label :description, "Description" %>
+    <%= f.text_area :description %>
+  </div>
+  <div class="form_field">
+    <%= f.label :picture, "Picture" %>
+    <%= f.file_field :picture %>
+  </div>
+  <div class="form_field">
+    <%= f.submit "Create" %>
+  </div>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Administrator</th>
+      <th>Date</th>
+      <th>Description</th>
+      <th>Participants</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @schedules.each do |schedule| %>
+      <%= render :partial => "schedule", :locals => {:schedule => schedule} %>
+    <% end %>
+  </tbody>
+</table>
