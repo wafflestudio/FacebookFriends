@@ -7,7 +7,7 @@ gem 'rails', '3.2.3'
 
 gem 'thin'
 
-gem 'koala'
+gem 'koala', '1.4.1'
 
 gem 'mongoid'
 gem 'bson_ext'

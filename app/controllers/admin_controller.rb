@@ -7,7 +7,7 @@ class AdminController < ApplicationController
   end
 
   def history
-    @users = User.all(conditions: {gender: /male$/}, sort: [[:updated_at, :desc]])[0..100].reject {|u| u.updated_at.nil?}
+    @users = User.all(sort: [[:last_login, :desc]])[0..100]
   end
 
   def script

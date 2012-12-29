@@ -1,11 +1,10 @@
 FacebookFriend::Application.routes.draw do
   root :to => "main#home"
 
-  match "/oauth" => "main#oauth"
-  match "/friends" => "main#friends"
-  match "/signout" => "main#signout"
-
   match "/test" => "main#test"
+
+  match "/oauth" => "main#oauth"
+  match "/signout" => "main#signout"
 
   scope "admin" do
     match "/users" => "admin#users"
@@ -14,4 +13,5 @@ FacebookFriend::Application.routes.draw do
   end
 
   resources :schedules
+  match "/friends" => "friends#index"
 end

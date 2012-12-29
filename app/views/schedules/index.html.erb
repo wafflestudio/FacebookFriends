@@ -1,6 +1,6 @@
 <script type="text/javascript">
 $(document).ready(function() {
-  $('.datepicker').datepicker({dateFormat: "yy-mm-dd"});
+  $('.datepicker').datetimepicker({dateFormat: "yy-mm-dd"});
   var user_json = $.parseJSON('<%= raw @user_json %>');
   $("#friend-token-input").tokenInput(user_json,
     {theme: "facebook", 
@@ -45,10 +45,11 @@ $(document).ready(function() {
       <th>Description</th>
       <th>Participants</th>
       <th></th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
-    <% @schedules.each do |schedule| %>
+    <% @schedules.reverse.each do |schedule| %>
       <%= render :partial => "schedule", :locals => {:schedule => schedule} %>
     <% end %>
   </tbody>
